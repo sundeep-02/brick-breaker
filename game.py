@@ -10,8 +10,8 @@ BRICK_WIDTH = 80
 BRICK_HEIGHT = 30
 PADDLE_WIDTH = 100
 PADDLE_HEIGHT = 10
-ROWS = 8
-COLUMNS = 10
+ROWS = 1
+COLUMNS = 2
 BG_COLOUR = (30, 30, 40)
 PADDLE_COLOR = (154, 223, 252)
 
@@ -55,10 +55,10 @@ class Paddle(pygame.sprite.Sprite):
         if len(brick_group.sprites()) == 0:
             keys = []
             self.move = False
-            self.x = SCR_WIDTH//2-PADDLE_WIDTH//2
+            self.x = SCR_WIDTH//2
             self.y = SCR_HEIGHT-20
 
-        self.rect.topleft = (self.x, self.y)
+        self.rect.center = (self.x, self.y)
 
 class Ball(pygame.sprite.Sprite):
     def __init__(self, x, y, picture):
@@ -121,7 +121,7 @@ brick_group = createBricks(brick_group)
 paddle_group = pygame.sprite.Group()
 ball_group = pygame.sprite.Group()
 
-paddle = Paddle(SCR_WIDTH//2-PADDLE_WIDTH//2, SCR_HEIGHT-20, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_COLOR)
+paddle = Paddle(SCR_WIDTH//2, SCR_HEIGHT-20, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_COLOR)
 paddle_group.add(paddle)
 
 ball = Ball(SCR_WIDTH//2, SCR_HEIGHT-40, "ball.png")
