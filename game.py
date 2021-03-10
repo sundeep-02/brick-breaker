@@ -14,7 +14,6 @@ ROWS = 8
 COLUMNS = 10
 BG_COLOUR = (30, 30, 40)
 PADDLE_COLOR = (154, 223, 252)
-BALL_COLOUR = (255, 255, 255)
 
 pygame.init()
 pygame.display.set_caption("Brick Breaker")
