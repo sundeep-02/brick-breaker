@@ -10,8 +10,8 @@ BRICK_WIDTH = 80
 BRICK_HEIGHT = 30
 PADDLE_WIDTH = 100
 PADDLE_HEIGHT = 10
-ROWS = 1
-COLUMNS = 2
+ROWS = 8
+COLUMNS = 10
 BG_COLOUR = (30, 30, 40)
 PADDLE_COLOR = (154, 223, 252)
 
@@ -44,11 +44,11 @@ class Paddle(pygame.sprite.Sprite):
 
     def update(self, brick_group):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT] and self.x > self.vel:
+        if keys[pygame.K_LEFT] and self.x > self.width//2 + self.vel:
             self.move = True
             self.x -= self.vel
 
-        if keys[pygame.K_RIGHT] and self.x < SCR_WIDTH - self.width - self.vel:
+        if keys[pygame.K_RIGHT] and self.x < SCR_WIDTH - self.width//2 - self.vel:
             self.move = True
             self.x += self.vel
 
