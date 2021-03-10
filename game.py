@@ -40,21 +40,21 @@ class Paddle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.vel = 6
-        self.move = 0
+        self.move = False
 
     def update(self, brick_group):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and self.x > self.vel:
-            self.move = 1
+            self.move = True
             self.x -= self.vel
 
         if keys[pygame.K_RIGHT] and self.x < SCR_WIDTH - self.width - self.vel:
-            self.move = 1
+            self.move = True
             self.x += self.vel
 
         if len(brick_group.sprites()) == 0:
             keys = []
-            self.move = 0
+            self.move = False
             self.x = SCR_WIDTH//2-PADDLE_WIDTH//2
             self.y = SCR_HEIGHT-20
 
