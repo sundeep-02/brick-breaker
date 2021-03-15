@@ -11,7 +11,7 @@ BRICK_WIDTH = 80
 BRICK_HEIGHT = 30
 PADDLE_WIDTH = 100
 PADDLE_HEIGHT = 10
-ROWS = 1
+ROWS = 8
 COLUMNS = 10
 BG_COLOUR = (30, 30, 40)
 PADDLE_COLOR = (154, 223, 252)
@@ -43,7 +43,7 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        self.vel = 6
+        self.vel = 7
         self.move = False
 
     def update(self):
@@ -70,6 +70,7 @@ class Ball(pygame.sprite.Sprite):
         self.x_vel = random.choice((5, -5))
         self.y_vel = -5
         self.life = 3
+        self.threshold = 6
 
     def update(self, paddle, brick_group):
         if paddle.move: 
@@ -94,7 +95,15 @@ class Ball(pygame.sprite.Sprite):
 
         collided_list = pygame.sprite.spritecollide(ball, brick_group, True)
         if len(collided_list):
-            self.y_vel *= -1
+            for brick in collided_list:
+                if abs(self.rect.bottom - brick.rect.top) < self.threshold and self.y_vel > 0:
+                    self.y_vel *= -1
+                if abs(self.rect.top - brick.rect.bottom) < self.threshold and self.y_vel < 0:
+                    self.y_vel *= -1
+                if abs(self.rect.right - brick.rect.left) < self.threshold and self.y_vel > 0:
+                    self.x_vel *= -1
+                if abs(self.rect.left - brick.rect.right) < self.threshold and self.y_vel < 0:
+                    self.x_vel *= -1
 
         self.rect.center = (self.x, self.y)
 
