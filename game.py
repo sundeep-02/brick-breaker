@@ -1,5 +1,4 @@
 import pygame
-from pygame import Color
 import random
 import os
 
@@ -110,7 +109,8 @@ class Ball(pygame.sprite.Sprite):
 class Powerup(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
-        self.image = font.render("PowerUp", True, Color("cyan"))
+        r, g, b = random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)
+        self.image = font.render("PowerUp", True, (r, g, b))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -119,6 +119,8 @@ class Powerup(pygame.sprite.Sprite):
         self.type = random.randrange(0, 4)
 
     def update(self):
+        r, g, b = random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)
+        self.image = font.render("PowerUp", True, (r, g, b))
         self.y += self.vel
         if self.y > SCR_HEIGHT + 20:
             self.kill()
