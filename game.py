@@ -1,4 +1,5 @@
 import pygame
+from pygame import Color
 import random
 import os
 
@@ -117,13 +118,13 @@ def createBricks(brick_group, paddle, ball):
     return brick_group
 
 def gameManager(brick_group, ball, paddle):
-    if len(brick_group.sprites()) == 0 or ball.life == 0:
-        brick_group = createBricks(brick_group, paddle, ball)
-        ball.reset_ball(paddle)
-
     lives = font.render(f"Lives: {ball.life}", True, (255, 255, 255))
     screen.blit(lives, (10, SCR_HEIGHT - 30))
 
+    if len(brick_group.sprites()) == 0 or ball.life == 0:
+        brick_group = createBricks(brick_group, paddle, ball)
+        ball.reset_ball(paddle)
+    
 brick_group = pygame.sprite.Group()
 paddle_group = pygame.sprite.Group()
 ball_group = pygame.sprite.Group()
