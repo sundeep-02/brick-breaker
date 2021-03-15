@@ -11,7 +11,7 @@ BRICK_HEIGHT = 30
 PADDLE_WIDTH = 100
 PADDLE_HEIGHT = 10
 ROWS = 1
-COLUMNS = 1
+COLUMNS = 10
 BG_COLOUR = (30, 30, 40)
 PADDLE_COLOR = (154, 223, 252)
 
@@ -19,6 +19,9 @@ pygame.init()
 pygame.display.set_caption("Brick Breaker")
 screen = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT))
 clock = pygame.time.Clock()
+
+pygame.font.init()
+font = pygame.font.Font('freesansbold.ttf', 15)
 
 class Brick(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
@@ -42,7 +45,7 @@ class Paddle(pygame.sprite.Sprite):
         self.vel = 6
         self.move = False
 
-    def update(self, brick_group):
+    def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and self.x > self.width//2 + self.vel:
             self.move = True
@@ -65,6 +68,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.center = (self.x, self.y)
         self.x_vel = random.choice((5, -5))
         self.y_vel = -5
+        self.life = 3
 
     def update(self, paddle, brick_group):
         if paddle.move: 
@@ -81,6 +85,7 @@ class Ball(pygame.sprite.Sprite):
             self.y_vel = 5
 
         if self.rect.bottom >= SCR_HEIGHT:
+            self.life -= 1
             self.reset_ball(paddle)
 
         if self.rect.colliderect(paddle.rect):
@@ -90,10 +95,6 @@ class Ball(pygame.sprite.Sprite):
         if len(collided_list):
             self.y_vel *= -1
 
-        if len(brick_group.sprites()) == 0:
-            brick_group = createBricks(brick_group, paddle)
-            self.reset_ball(paddle)
-
         self.rect.center = (self.x, self.y)
 
     def reset_ball(self, paddle):
@@ -102,7 +103,7 @@ class Ball(pygame.sprite.Sprite):
         self.x_vel = random.choice((5, -5))
         self.y_vel = -5
     
-def createBricks(brick_group, paddle):
+def createBricks(brick_group, paddle, ball):
     for i in range(ROWS):
         for j in range(COLUMNS):
             r, g, b = random.randrange(50, 256), random.randrange(50, 256), random.randrange(50, 256)
@@ -112,7 +113,16 @@ def createBricks(brick_group, paddle):
     paddle.move = False
     paddle.x = SCR_WIDTH//2
     paddle.y = SCR_HEIGHT-20
+    ball.life = 3
     return brick_group
+
+def gameManager(brick_group, ball, paddle):
+    if len(brick_group.sprites()) == 0 or ball.life == 0:
+        brick_group = createBricks(brick_group, paddle, ball)
+        ball.reset_ball(paddle)
+
+    lives = font.render(f"Lives: {ball.life}", True, (255, 255, 255))
+    screen.blit(lives, (10, SCR_HEIGHT - 30))
 
 brick_group = pygame.sprite.Group()
 paddle_group = pygame.sprite.Group()
@@ -124,16 +134,17 @@ paddle_group.add(paddle)
 ball = Ball(SCR_WIDTH//2, SCR_HEIGHT-40, "ball.png")
 ball_group.add(ball)
 
-brick_group = createBricks(brick_group, paddle)
+brick_group = createBricks(brick_group, paddle, ball)
 
 run = True
 while run:
     screen.fill(BG_COLOUR)
     brick_group.draw(screen)
     paddle_group.draw(screen)
-    paddle_group.update(brick_group)
+    paddle_group.update()
     ball_group.draw(screen)
     ball_group.update(paddle, brick_group)
+    gameManager(brick_group, ball, paddle)
 
     pygame.display.update()
     clock.tick(60)
