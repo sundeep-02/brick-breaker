@@ -176,6 +176,11 @@ def gameManager(screen, ball, paddle, brick_group, power_group):
         power_group.empty()
         brick_group = createBricks(brick_group, paddle, ball)
         ball.reset_ball(paddle)
+        paddle.width = 100
+        paddle.vel = 7
+        ball.x_vel = 5 if ball.x_vel > 0 else -5
+        ball.y_vel = 5 if ball.y_vel > 0 else -5
+        ball.collide = True
 
     brick_collided_list = pygame.sprite.spritecollide(ball, brick_group, True)
     if len(brick_collided_list):
