@@ -241,10 +241,8 @@ ball_group.add(ball)
 brick_group = createBricks(brick_group, paddle, ball)
 
 run = True
-intro = True
 while run:
     introScreen()
-
     screen.fill(BG_COLOUR)
     gameManager(screen, ball, paddle, brick_group, power_group)
     pygame.display.update()
