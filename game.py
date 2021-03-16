@@ -33,8 +33,8 @@ def introScreen():
         text_2 = font_.render("Breaker", True, (r, g ,b))
         textRect_1 = text_1.get_rect()
         textRect_2 = text_2.get_rect()
-        textRect_1.center = ((SCR_WIDTH//2)-70, (SCR_HEIGHT//2)-50)
-        textRect_2.center = ((SCR_WIDTH//2)+30, (SCR_HEIGHT//2)+50)
+        textRect_1.center = ((SCR_WIDTH//2)-50, (SCR_HEIGHT//2)-50)
+        textRect_2.center = ((SCR_WIDTH//2)+10, (SCR_HEIGHT//2)+50)
         screen.fill(BG_COLOUR)
         screen.blit(text_1, textRect_1)
         screen.blit(text_2, textRect_2)
@@ -51,7 +51,7 @@ class Brick(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
-        self.powerup = random.randrange(0, 4)
+        self.powerup = random.randrange(0, 6)
 
 class Paddle(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
