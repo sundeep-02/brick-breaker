@@ -23,6 +23,27 @@ clock = pygame.time.Clock()
 pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 15)
 
+def introScreen():
+    font_ = pygame.font.SysFont('Berlin Sans FB', 100)
+    r, g, b = random.randrange(150, 256), random.randrange(150, 256), random.randrange(150, 256)
+    while pygame.time.get_ticks() < 6000:
+        if pygame.time.get_ticks() % 500 <= 50:
+            r, g, b = random.randrange(50, 256), random.randrange(150, 256), random.randrange(50, 256)
+        text_1 = font_.render("Brick", True, (r, g, b))
+        text_2 = font_.render("Breaker", True, (r, g ,b))
+        textRect_1 = text_1.get_rect()
+        textRect_2 = text_2.get_rect()
+        textRect_1.center = ((SCR_WIDTH//2)-70, (SCR_HEIGHT//2)-50)
+        textRect_2.center = ((SCR_WIDTH//2)+30, (SCR_HEIGHT//2)+50)
+        screen.fill(BG_COLOUR)
+        screen.blit(text_1, textRect_1)
+        screen.blit(text_2, textRect_2)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        clock.tick(60)
+        pygame.display.update()
+
 class Brick(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, color):
         super().__init__()
@@ -220,7 +241,10 @@ ball_group.add(ball)
 brick_group = createBricks(brick_group, paddle, ball)
 
 run = True
+intro = True
 while run:
+    introScreen()
+
     screen.fill(BG_COLOUR)
     gameManager(screen, ball, paddle, brick_group, power_group)
     pygame.display.update()
